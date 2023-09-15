@@ -1,13 +1,11 @@
 package com.upgrad.proman.api.controller;
 
 
-import com.upgrad.proman.api.model.PermissionsType;
-import com.upgrad.proman.api.model.RoleDetailsType;
 import com.upgrad.proman.api.model.UserDetailsResponse;
 import com.upgrad.proman.api.model.UserStatusType;
 import com.upgrad.proman.service.business.UserAdminBusinessService;
-import com.upgrad.proman.service.entity.RoleEntity;
 import com.upgrad.proman.service.entity.UserEntity;
+import com.upgrad.proman.service.exception.ResourceNotFoundException;
 import com.upgrad.proman.service.type.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +23,7 @@ public class UserAdminController {
 
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDetailsResponse> getUser(@PathVariable String id){
+    public ResponseEntity<UserDetailsResponse> getUser(@PathVariable String id) throws ResourceNotFoundException {
         UserEntity user=businessService.getUser(id);
         UserDetailsResponse response=new UserDetailsResponse();
         response.setId(user.getUuid());

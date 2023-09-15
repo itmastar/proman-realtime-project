@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 public class UserBusinessService {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private PasswordCryptographyProvider cryptographyProvider;
 
     public UserEntity signup(UserEntity user){
-        return userDao.save(user);
+        String[] encrypt = cryptographyProvider.encrypt(user.getPassword());
+        user.setSalt(encrypt[0]);
+        user.setPassword(encrypt[1]);
+       return  userDao.save(user);
     }
 }
